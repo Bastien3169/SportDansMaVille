@@ -1,0 +1,22 @@
+# Environnements virtuels
+venv/
+.env/
+__pycache__/
+
+# Fichiers Python compilés
+*.pyc
+*.pyo
+*.pyd
+
+# Fichiers Jupyter
+.ipynb_checkpoints
+
+# Logs et fichiers temporaires
+*.log
+*.tmp
+
+# Base de données locale
+*.db
+
+# Dossiers de cache
+.cache/
