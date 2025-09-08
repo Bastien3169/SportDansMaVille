@@ -43,6 +43,7 @@ async def main():
     async with async_playwright() as p:
         # Lancer le navigateur Chromium en mode asynchrone car sur Jupyter il faut être asynchrone
         browser = await p.chromium.launch(headless=True)  # headless=False pour voir le navigateur
+        #page = await browser.new_page(viewport={"width": 1280, "height": 800})
         page = await browser.new_page() # Ouvre une nouvelle page
     
         
@@ -68,12 +69,11 @@ async def main():
                 creneau = await page.locator("div.value").text_content()  
                 if "16:00 - 20:00" in creneau.lower():
                     await page.wait_for_timeout(1000)
-                    await page.get_by_text("19:00").click()
+                    await page.get_by_text("19:00").first.click()
                     numero_terrain = [4, 5, 7, 6, 3, 2, 1] # Prend les 7 terrains par ordre de préférence pour faire une boucle afin de trouver le 1er crénaux "Début19:0060 minA partir de100.00 €"
                     for i in numero_terrain: # Pour chaque numéro de terrain, trouver "Début19:0060 min"
                         await page.wait_for_timeout(1000)
                         text_playwriht = await page.get_by_text(f"Foot {i} Football 5vs5 - Exté").text_content() # Capturer  le text...
-                        print(text_playwriht)
                         if "Début19:00" in text_playwriht and "60" in text_playwriht: # ... Si il y a le texte "Début19:0060 min", alors cliquer sur les pages suivantes
                             await page.wait_for_timeout(1000)
                             await page.locator("app-card-playground").filter(has_text=f"Foot {i} Football 5vs5 - Exté").locator("ion-label").filter(has_text="60 min").click()
