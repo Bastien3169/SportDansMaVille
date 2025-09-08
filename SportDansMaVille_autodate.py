@@ -34,7 +34,6 @@ def date():
     
     # Convertir en français et construire la chaîne
     date_str = f"{mois_fr[mois_anglais]} {jour},"
-    
     return date_str
 
 
@@ -49,12 +48,18 @@ async def main():
         
         await page.goto("https://sport-dans-la-ville.doinsport.club/select-booking?guid=%221ce2c55d-6010-4f45-9b6f-1aafc04382fa%22&from=sport&activitySelectedId=%22cc4da804-1ef4-4f57-9fa4-4c203cdc06c8%22&categoryId=%22910503af-d67a-4f2b-a0df-838e0b4fb8ac%22") # Va sur l'URL demandé
         await page.locator("app-svg-container").get_by_role("img").click() # Click sur le logo calendrier pour ouvrir le calendrier
-        for _ in range(2): # Si range est (2), c'est pour cliquer 2x afin d'avancer de 2 mois, etc...
-            await page.locator("ion-calendar").get_by_role("button", name="chevron forward outline").click() # click sur fleche de droite x2 pour avancé de deux mois
-        await page.get_by_label(date()).click() # Click sur le jour du mois
+        # Avancer jusqu'à trouver "mai 06"       
+        for _ in range(6):  # On limite à 6 essais max
+            # Vérifie si la date est présente
+            date_element = page.get_by_label(date())
+            if await date_element.is_visible():
+                await date_element.click()
+                break
+            else:
+                await page.locator("ion-calendar").get_by_role("button", name="chevron forward outline").click()
+
         
             
-    
         # Naviguer jusqu'à la tranche horaire 16:00 - 20:00
         for direction in ['right', 'left']:
             for _ in range(5):
