@@ -4,6 +4,39 @@ import asyncio
 import nest_asyncio
 import time
 
+def date():
+    # Mapping anglais → français
+    mois_fr = {
+        "January": "janvier",
+        "February": "février",
+        "March": "mars",
+        "April": "avril",
+        "May": "mai",
+        "June": "juin",
+        "July": "juillet",
+        "August": "août",
+        "September": "septembre",
+        "October": "octobre",
+        "November": "novembre",
+        "December": "décembre"
+    }
+
+    # Date de départ
+    date_depart = datetime.now()
+    
+    # Ajouter 45 jours
+    date_updatee = date_depart + timedelta(days=45)
+    
+    # Récupérer le mois en anglais
+    mois_anglais = date_updatee.strftime('%B')
+    jour = date_updatee.strftime('%d')
+    
+    # Convertir en français et construire la chaîne
+    date_str = f"{mois_fr[mois_anglais]} {jour},"
+    
+    return date_str
+
+
 nest_asyncio.apply()
 
 async def main():
@@ -17,7 +50,7 @@ async def main():
         await page.locator("app-svg-container").get_by_role("img").click() # Click sur le logo calendrier pour ouvrir le calendrier
         for _ in range(2): # Si range est (2), c'est pour cliquer 2x afin d'avancer de 2 mois, etc...
             await page.locator("ion-calendar").get_by_role("button", name="chevron forward outline").click() # click sur fleche de droite x2 pour avancé de deux mois
-        await page.get_by_label("mai 06,").click() # Click sur le jour du mois
+        await page.get_by_label(date()).click() # Click sur le jour du mois
         
             
     
