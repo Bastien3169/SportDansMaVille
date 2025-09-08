@@ -42,7 +42,7 @@ nest_asyncio.apply()
 async def main():
     async with async_playwright() as p:
         # Lancer le navigateur Chromium en mode asynchrone car sur Jupyter il faut être asynchrone
-        browser = await p.chromium.launch(headless=False)  # headless=False pour voir le navigateur
+        browser = await p.chromium.launch(headless=True)  # headless=False pour voir le navigateur
         page = await browser.new_page() # Ouvre une nouvelle page
     
         
