@@ -73,7 +73,7 @@ async def main():
                     numero_terrain = [4, 5, 7, 6, 3, 2, 1] # Prend les 7 terrains par ordre de préférence pour faire une boucle afin de trouver le 1er crénaux "Début19:0060 minA partir de100.00 €"
                     for i in numero_terrain: # Pour chaque numéro de terrain, trouver "Début19:0060 min"
                         await page.wait_for_timeout(1000)
-                        text_playwriht = await page.get_by_text(f"Foot {i} Football 5vs5 - Exté").text_content(timeout=5000) # Capturer  le text...
+                        text_playwriht = await page.get_by_text(f"Foot {i} Football 5vs5 - Exté").text_content(timeout=30000) # Capturer  le text...
                         await page.wait_for_timeout(1000)
                         if "Début19:00" in text_playwriht and "60" in text_playwriht: # ... Si il y a le texte "Début19:0060 min", alors cliquer sur les pages suivantes
                             await page.wait_for_timeout(1000)
