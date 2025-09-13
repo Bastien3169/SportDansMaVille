@@ -1,12 +1,12 @@
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright # A priori, pas besoin
 from playwright.async_api import async_playwright
 import asyncio
-import nest_asyncio
-import time
+import nest_asyncio # A priori, pas besoin,sauf pour notebook
+import time # A priori, pas besoin
 from datetime import datetime, timedelta
 
 def date():
-    # Mapping anglais → français
+    # Mapping anglais vers anglais français
     mois_fr = {
         "January": "janvier",
         "February": "février",
@@ -28,7 +28,7 @@ def date():
     # Ajouter 45 jours
     date_updatee = date_depart + timedelta(days=45)
     
-    # Récupérer le mois en anglais
+    # Récupérer le mois mais en anglais et vu qu'on cherche un mois en fr dans le DOM, il faut transformer le mot
     mois_anglais = date_updatee.strftime('%B')
     jour = date_updatee.strftime('%d')
     
@@ -37,14 +37,16 @@ def date():
     return date_str
 
 
-nest_asyncio.apply()
+nest_asyncio.apply() # Pas obligé avec .py. Que pour note book
 
 async def main():
     async with async_playwright() as p:
         # Lancer le navigateur Chromium en mode asynchrone car sur Jupyter il faut être asynchrone
         browser = await p.chromium.launch(headless=True, args=["--lang=fr-FR"])  # headless=False pour voir le navigateur, forcer fr pour pas que Chrome traduise automatiquement
-        page = await browser.new_page(viewport={"width": 1280, "height": 800})
-        #page = await browser.new_page() # Ouvre une nouvelle page
+        # Ici : créer un contexte avec locale FR
+        context = await browser.new_context(locale="fr-FR", viewport={"width": 1280, "height": 800})
+        # Créer une nouvelle page dans ce contexte
+        page = await context.new_page() # Ouvre une nouvelle page avec context
     
         
         await page.goto("https://sport-dans-la-ville.doinsport.club/select-booking?guid=%221ce2c55d-6010-4f45-9b6f-1aafc04382fa%22&from=sport&activitySelectedId=%22cc4da804-1ef4-4f57-9fa4-4c203cdc06c8%22&categoryId=%22910503af-d67a-4f2b-a0df-838e0b4fb8ac%22") # Va sur l'URL demandé
@@ -74,7 +76,7 @@ async def main():
                     for i in numero_terrain: # Pour chaque numéro de terrain, trouver "Début19:0060 min"
                         await page.wait_for_timeout(1000)
                         # Screenshot complet
-                        await page.screenshot(path="page_entière.png", full_page=True)
+                        #await page.screenshot(path="page_entière.png", full_page=True)
                         text_playwriht = await page.get_by_text(f"Foot {i} Football 5vs5 - Exté").text_content() # Capturer  le text...
                         await page.wait_for_timeout(1000)
                         if "Début19:00" in text_playwriht and "60" in text_playwriht: # ... Si il y a le texte "Début19:0060 min", alors cliquer sur les pages suivantes
