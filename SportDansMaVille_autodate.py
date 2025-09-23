@@ -78,7 +78,7 @@ async def main():
                     for i in numero_terrain:  # Pour chaque numéro de terrain, trouver "Début19:0060 min"
                         await page.wait_for_timeout(2000)
                         # Screenshot complet
-                        await page.screenshot(path="/app/crash_screenshot.png", full_page=True)
+                        #await page.screenshot(path="/app/crash_screenshot.png", full_page=True)
                         # Capturer  le text...
                         text_playwriht = await page.get_by_text(f"Foot {i} Football 5vs5 - Exté").text_content()
                         await page.wait_for_timeout(2000)
