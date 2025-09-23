@@ -17,7 +17,7 @@ jobs:
         run: docker build -t sportville .
 
       - name: Run container
-        run: docker run --rm sportville
+        run: docker run --rm -v ${{ github.workspace }}:/app sportville
 
       - name: Upload screenshot on failure
         if: failure()
