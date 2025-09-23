@@ -76,26 +76,35 @@ async def main():
                     # Prend les 7 terrains par ordre de préférence pour faire une boucle afin de trouver le 1er crénaux "Début19:0060 minA partir de100.00 €"
                     numero_terrain = [4, 5, 7, 6, 3, 2, 1]
                     for i in numero_terrain:  # Pour chaque numéro de terrain, trouver "Début19:0060 min"
-                        await page.wait_for_timeout(1000)
+                        await page.wait_for_timeout(2000)
                         # Screenshot complet
                         await page.screenshot(path="/app/crash_screenshot.png", full_page=True)
                         # Capturer  le text...
                         text_playwriht = await page.get_by_text(f"Foot {i} Football 5vs5 - Exté").text_content()
-                        await page.wait_for_timeout(1000)
+                        await page.wait_for_timeout(2000)
                         # ... Si il y a le texte "Début19:0060 min", alors cliquer sur les pages suivantes
                         if "Début19:00" in text_playwriht and "60" in text_playwriht:
-                            await page.wait_for_timeout(1000)
+                            await page.wait_for_timeout(2000)
                             await page.locator("app-card-playground").filter(has_text=f"Foot {i} Football 5vs5 - Exté").locator("ion-label").filter(has_text="60 min").click()
-                            await page.wait_for_timeout(1000)
+                            await page.wait_for_timeout(2000)
                             await page.fill('input[placeholder="john.doe@example.com"]', 'jolie.mountain@gmail.com')
+                            await page.wait_for_timeout(2000)
                             await page.get_by_text("Valider mon email").click()
+                            await page.wait_for_timeout(2000)
                             await page.fill('input[placeholder="******"]', 'Toulouse31')
+                            await page.wait_for_timeout(2000)
                             await page.get_by_text("Valider").click()
+                            await page.wait_for_timeout(2000)
                             await page.get_by_text("Suivant").click()
+                            await page.wait_for_timeout(2000)
                             await page.get_by_text("Payer et réserverPayer et ré").click()
+                            await page.wait_for_timeout(2000)
                             await page.get_by_text("Ajouter une carte").click()
+                            await page.wait_for_timeout(2000)
                             await page.locator("#ion-overlay-6 ion-radio").first.click()
+                            await page.wait_for_timeout(2000)
                             await page.get_by_text("Sélectionner").click()
+                            await page.wait_for_timeout(2000)
                             await page.get_by_text("Payer et réserver").nth(1).click()
                             # Attendre 500ms pour que la DOM se mette à jour
                             await page.wait_for_timeout(1000)
