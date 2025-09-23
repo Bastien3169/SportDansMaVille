@@ -2,8 +2,8 @@ name: Run SportDansMaVille (scheduled)
 
 on:
   schedule:
-    - cron: "1 0 * * 6"   # tous les samedis à 02:00 UTC
-  workflow_dispatch:       # permet de déclencher manuellement
+    - cron: "1 0 * * 6" # tous les samedis à 02:00 UTC
+  workflow_dispatch: # permet de déclencher manuellement
 
 jobs:
   run-script:
@@ -18,3 +18,10 @@ jobs:
 
       - name: Run container
         run: docker run --rm sportville
+
+      - name: Upload screenshot on failure
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: crash-screenshots
+          path: "*.png"
