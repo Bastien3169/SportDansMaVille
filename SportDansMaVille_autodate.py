@@ -77,9 +77,7 @@ async def main():
                     numero_terrain = [4, 5, 7, 6, 3, 2, 1]
                     for i in numero_terrain:  # Pour chaque numéro de terrain, trouver "Début19:0060 min"
                         await page.wait_for_timeout(2000)
-                        # Screenshot complet
-                        #await page.screenshot(path="/app/crash_screenshot.png", full_page=True)
-                        # Capturer  le text...
+                         # Capturer  le text...
                         text_playwriht = await page.get_by_text(f"Foot {i} Football 5vs5 - Exté").text_content()
                         await page.wait_for_timeout(2000)
                         # ... Si il y a le texte "Début19:0060 min", alors cliquer sur les pages suivantes
@@ -90,6 +88,8 @@ async def main():
                             await page.fill('input[placeholder="john.doe@example.com"]', 'jolie.mountain@gmail.com')
                             await page.wait_for_timeout(2000)
                             await page.get_by_text("Valider mon email").click()
+                             # Screenshot complet
+                            await page.screenshot(path="/app/crash_screenshot.png", full_page=True)
                             await page.wait_for_timeout(2000)
                             await page.fill('input[placeholder="******"]', 'Toulouse31')
                             await page.wait_for_timeout(2000)
