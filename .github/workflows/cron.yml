@@ -1,0 +1,20 @@
+name: Run SportDansMaVille (scheduled)
+
+on:
+  schedule:
+    - cron: "1 0 * * 6"   # tous les samedis à 02:00 UTC
+  workflow_dispatch:       # permet de déclencher manuellement
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t sportville .
+
+      - name: Run container
+        run: docker run --rm sportville
