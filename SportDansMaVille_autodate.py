@@ -4,6 +4,8 @@ import asyncio
 import nest_asyncio  # A priori, pas besoin,sauf pour notebook
 import time  # A priori, pas besoin
 from datetime import datetime, timedelta
+# Mettre venv : source .venv/bin/activate
+# Arreter venv : deactivate
 
 
 def date():
@@ -87,7 +89,6 @@ async def main():
                             await page.wait_for_timeout(2000)
                             await page.fill('input[placeholder="john.doe@example.com"]', 'jolie.mountain@gmail.com')
                             await page.wait_for_timeout(2000)
-                            #await page.pause()
                             await page.get_by_text("Valider mon email").click()
                              # Screenshot complet
                             #await page.screenshot(path="/app/crash_screenshot.png", full_page=True)
@@ -95,21 +96,20 @@ async def main():
                             await page.fill('input[placeholder="******"]', 'Toulouse31')
                             await page.wait_for_timeout(2000)
                             await page.get_by_text("Valider").click()
-                            #await page.pause()
                             await page.wait_for_timeout(2000)
                             await page.get_by_text("Suivant").click()
+                            #await page.pause()
                             await page.wait_for_timeout(2000)
                             await page.get_by_text("Payer et réserverPayer et ré").click()
-                            await page.wait_for_timeout(2000)
-                            await page.get_by_text("Ajouter une carte").click()
-                            await page.wait_for_timeout(2000)
-                            await page.locator("#ion-overlay-6 ion-radio").first.click()
-                            await page.wait_for_timeout(2000)
-                            await page.get_by_text("Sélectionner").click()
-                            await page.wait_for_timeout(2000)
+                            await page.wait_for_timeout(5000)
+                            #await page.get_by_text("Ajouter une carte").click()
+                            #await page.wait_for_timeout(2000)
+                            #await page.locator("#ion-overlay-6 ion-radio").first.click()
+                            #await page.wait_for_timeout(2000)
+                            #await page.get_by_text("Sélectionner").click()
+                            #await page.wait_for_timeout(2000)
                             await page.get_by_text("Payer et réserver").nth(1).click()
                             print("Processus de réservation terminé.")
-                            # Attendre 500ms pour que la DOM se mette à jour
                             await page.wait_for_timeout(1000)
                             await browser.close()  # ferme le navigateur proprement
                             return  # quitte la fonction main()
