@@ -3,6 +3,7 @@ from playwright.async_api import async_playwright
 import asyncio
 import nest_asyncio  # A priori, pas besoin,sauf pour notebook
 import time  # A priori, pas besoin
+import base64
 from datetime import datetime, timedelta
 # Mettre venv : source .venv/bin/activate
 # Arreter venv : deactivate
@@ -49,7 +50,9 @@ async def main():
         # headless=False pour voir le navigateur, forcer fr pour pas que Chrome traduise automatiquement
         browser = await p.chromium.launch(headless=True, args=["--lang=fr-FR"])
         # Ici : créer un contexte avec locale FR
-        context = await browser.new_context(locale="fr-FR", viewport={"width": 1280, "height": 800})
+        context = await browser.new_context(locale="fr-FR", 
+                                            viewport={"width": 1280, "height": 800}, 
+                                            user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36")
         # Créer une nouvelle page dans ce contexte
         page = await context.new_page()  # Ouvre une nouvelle page avec context
 
@@ -104,7 +107,17 @@ async def main():
                             await page.get_by_text("Suivant").click()
                             #await page.pause()
                             await page.wait_for_timeout(2000)
+                            # Screenshot qui se print en base64. A copier/coller sur un site pour avoir la page
+                            await page.screenshot(path="/tmp/final_screenshot.png", full_page=True)
+                            with open("/tmp/final_screenshot.png", "rb") as f:
+                                print("SCREENSHOT1_BASE64:", base64.b64encode(f.read()).decode())
+                            print("Processus de réservation terminé.")
                             await page.get_by_text("Payer et réserverPayer et ré").click()
+                            # Screenshot qui se print en base64. A copier/coller sur un site pour avoir la page
+                            await page.screenshot(path="/tmp/final_screenshot.png", full_page=True)
+                            with open("/tmp/final_screenshot.png", "rb") as f:
+                                print("SCREENSHOT2_BASE64:", base64.b64encode(f.read()).decode())
+                            print("Processus de réservation terminé.")
                             await page.wait_for_timeout(2000)
                             #await page.get_by_text("Ajouter une carte").click()
                             #await page.wait_for_timeout(2000)
@@ -113,7 +126,6 @@ async def main():
                             #await page.get_by_text("Sélectionner").click()
                             #await page.wait_for_timeout(2000)
                             #await page.get_by_text("Payer et réserver").nth(1).click()
-                            print("Processus de réservation terminé.")
                             await page.wait_for_timeout(1000)
                             await browser.close()  # ferme le navigateur proprement
                             return  # quitte la fonction main()
