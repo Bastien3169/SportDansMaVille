@@ -62,7 +62,6 @@ async def main():
             date_element = page.get_by_label(date())
             if await date_element.is_visible():
                 await date_element.click()
-                print(date())
                 break
             else:
                 await page.locator("ion-calendar").get_by_role("button", name="chevron forward outline").click()
@@ -74,10 +73,8 @@ async def main():
                 await page.locator(f"button.btn-arrow-{direction}").click()
                 creneau = await page.locator("div.value").text_content()
                 if "16:00 - 20:00" in creneau.lower():
-                    print(f"{creneau}, OK !")
                     await page.wait_for_timeout(1000)
                     await page.get_by_text("19:00").first.click()
-                    print("Heure OK !")
                     # Prend les 7 terrains par ordre de préférence pour faire une boucle afin de trouver le 1er crénaux "Début19:0060 minA partir de100.00 €"
                     numero_terrain = [4, 5, 7, 6, 3, 2, 1]
                     for i in numero_terrain:  # Pour chaque numéro de terrain, trouver "Début19:0060 min"
@@ -89,7 +86,6 @@ async def main():
                         if "Début19:00" in text_playwriht and "60" in text_playwriht:
                             await page.wait_for_timeout(2000)
                             await page.locator("app-card-playground").filter(has_text=f"Foot {i} Football 5vs5 - Exté").locator("ion-label").filter(has_text="60 min").click()
-                            print(f"Terrain {i} trouvé")
                             await page.wait_for_timeout(2000)
                             await page.fill('input[placeholder="john.doe@example.com"]', 'jolie.mountain@gmail.com')
                             await page.wait_for_timeout(2000)
