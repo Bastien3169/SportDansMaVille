@@ -107,11 +107,6 @@ async def main():
                             await page.get_by_text("Suivant").click()
                             #await page.pause()
                             await page.wait_for_timeout(2000)
-                            # Screenshot qui se print en base64. A copier/coller sur un site pour avoir la page
-                            await page.screenshot(path="/tmp/final_screenshot.png", full_page=True)
-                            with open("/tmp/final_screenshot.png", "rb") as f:
-                                print("SCREENSHOT1_BASE64:", base64.b64encode(f.read()).decode())
-                            print("Processus de réservation terminé.")
                             await page.get_by_text("Payer et réserverPayer et ré").click()
                             # Screenshot qui se print en base64. A copier/coller sur un site pour avoir la page
                             await page.screenshot(path="/tmp/final_screenshot.png", full_page=True)
@@ -129,5 +124,10 @@ async def main():
                             await page.wait_for_timeout(1000)
                             await browser.close()  # ferme le navigateur proprement
                             return  # quitte la fonction main()
+                    
+                    # 👉 Si on arrive ici, c’est que le return n’a jamais été exécuté
+                    print("❌ Aucun terrain dispo à 19h !")
+                    await browser.close()
+                    return
 
 asyncio.run(main())
