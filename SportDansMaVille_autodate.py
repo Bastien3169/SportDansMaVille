@@ -111,22 +111,24 @@ async def main():
                             with open("/tmp/final_screenshot.png", "rb") as f:
                                 print("SCREENSHOT2_BASE64:", base64.b64encode(f.read()).decode())
                             print("Processus de réservation terminé.")
-                            await page.get_by_text("Payer et réserverPayer et ré").click()
-                            # Screenshot qui se print en base64. A copier/coller sur un site pour avoir la page
-                            await page.screenshot(path="/tmp/final_screenshot.png", full_page=True)
-                            with open("/tmp/final_screenshot.png", "rb") as f:
-                                print("SCREENSHOT2_BASE64:", base64.b64encode(f.read()).decode())
-                            print("Processus de réservation terminé.")
-                            await page.wait_for_timeout(2000)
-                            #await page.get_by_text("Ajouter une carte").click()
-                            #await page.wait_for_timeout(2000)
-                            #await page.locator("#ion-overlay-6 ion-radio").first.click()
-                            #await page.wait_for_timeout(2000)
-                            #await page.get_by_text("Sélectionner").click()
-                            #await page.wait_for_timeout(2000)
-                            #await page.get_by_text("Payer et réserver").nth(1).click()
-                            await page.wait_for_timeout(1000)
-                            await browser.close()  # ferme le navigateur proprement
+                            try:
+                                # Essayer rapidement
+                                await page.get_by_text("Ajouter une carte").click(timeout=2000)
+                                await page.wait_for_timeout(1000)
+                                await page.locator("#ion-overlay-6 ion-radio").first.click(timeout=2000)
+                                await page.wait_for_timeout(1000)
+                                await page.get_by_text("Sélectionner").click(timeout=2000)
+                                await page.wait_for_timeout(1000)
+                                await page.get_by_text("Payer et réserver").nth(1).click(timeout=2000)
+                            except Exception as e:
+                                await page.get_by_text("Payer et réserverPayer et ré").click()
+                                # Screenshot qui se print en base64. A copier/coller sur un site pour avoir la page
+                                await page.screenshot(path="/tmp/final_screenshot.png", full_page=True)
+                                with open("/tmp/final_screenshot.png", "rb") as f:
+                                    print("SCREENSHOT2_BASE64:", base64.b64encode(f.read()).decode())
+                                print("Processus de réservation terminé.")
+                                await page.wait_for_timeout(1000)
+                                await browser.close()  # ferme le navigateur proprement
                             return  # quitte la fonction main()
                     
                     # 👉 Si on arrive ici, c’est que le return n’a jamais été exécuté
