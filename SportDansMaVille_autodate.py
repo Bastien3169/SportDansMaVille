@@ -107,6 +107,10 @@ async def main():
                             await page.get_by_text("Suivant").click()
                             #await page.pause()
                             await page.wait_for_timeout(2000)
+                            await page.screenshot(path="/tmp/final_screenshot.png", full_page=True)
+                            with open("/tmp/final_screenshot.png", "rb") as f:
+                                print("SCREENSHOT2_BASE64:", base64.b64encode(f.read()).decode())
+                            print("Processus de réservation terminé.")
                             await page.get_by_text("Payer et réserverPayer et ré").click()
                             # Screenshot qui se print en base64. A copier/coller sur un site pour avoir la page
                             await page.screenshot(path="/tmp/final_screenshot.png", full_page=True)
