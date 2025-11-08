@@ -47,7 +47,7 @@ async def main():
     async with async_playwright() as p:
         # Lancer le navigateur Chromium en mode asynchrone car sur Jupyter il faut être asynchrone
         # headless=False pour voir le navigateur, forcer fr pour pas que Chrome traduise automatiquement
-        browser = await p.chromium.launch(headless=True, args=["--lang=fr-FR"])
+        browser = await p.chromium.launch(headless=False, args=["--lang=fr-FR"])
         # Ici : créer un contexte avec locale FR
         context = await browser.new_context(locale="fr-FR", viewport={"width": 1280, "height": 800})
         # Créer une nouvelle page dans ce contexte
@@ -69,39 +69,27 @@ async def main():
         # Naviguer jusqu'à la tranche horaire 16:00 - 20:00
         for direction in ['right', 'left']:
             for _ in range(5):
-                await page.wait_for_timeout(1000)
                 await page.locator(f"button.btn-arrow-{direction}").click()
                 creneau = await page.locator("div.value").text_content()
                 if "16:00 - 20:00" in creneau.lower():
-                    await page.wait_for_timeout(1000)
                     await page.get_by_text("19:00").first.click()
                     # Prend les 7 terrains par ordre de préférence pour faire une boucle afin de trouver le 1er crénaux "Début19:0060 minA partir de100.00 €"
                     numero_terrain = [4, 5, 7, 6, 3, 2, 1]
                     for i in numero_terrain:  # Pour chaque numéro de terrain, trouver "Début19:0060 min"
-                        await page.wait_for_timeout(2000)
                          # Capturer  le text...
                         text_playwriht = await page.get_by_text(f"Foot {i} Football 5vs5 - Exté").text_content()
-                        await page.wait_for_timeout(2000)
                         # ... Si il y a le texte "Début19:0060 min", alors cliquer sur les pages suivantes
                         if "Début19:00" in text_playwriht and "60" in text_playwriht:
-                            await page.wait_for_timeout(2000)
                             await page.locator("app-card-playground").filter(has_text=f"Foot {i} Football 5vs5 - Exté").locator("ion-label").filter(has_text="60 min").click()
-                            await page.wait_for_timeout(2000)
                             await page.fill('input[placeholder="john.doe@example.com"]', 'jolie.mountain@gmail.com')
-                            await page.wait_for_timeout(2000)
                             await page.get_by_text("Valider mon email").click()
                              # Screenshot complet
                             #await page.screenshot(path="/app/crash_screenshot.png", full_page=True)
-                            await page.wait_for_timeout(2000)
                             await page.fill('input[placeholder="******"]', 'Toulouse31')
-                            await page.wait_for_timeout(2000)
                             await page.get_by_text("Valider").click()
-                            await page.wait_for_timeout(2000)
                             await page.get_by_text("Suivant").click()
-                            #await page.pause()
-                            await page.wait_for_timeout(2000)
-                            await page.get_by_text("Payer et réserverPayer et ré").click()
-                            await page.wait_for_timeout(2000)
+                            await page.pause()
+                            await page.get_by_text("Payer et réserver").click()
                             #await page.get_by_text("Ajouter une carte").click()
                             #await page.wait_for_timeout(2000)
                             #await page.locator("#ion-overlay-6 ion-radio").first.click()
