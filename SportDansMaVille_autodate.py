@@ -121,7 +121,9 @@ async def main():
                                 await page.get_by_text("Sélectionner").click()
                                 await page.wait_for_timeout(1000)
                                 print("Sélectionner carte ok")
-                                await page.get_by_text("Payer et réserver").click()
+                                with open("/tmp/final_screenshot.png", "rb") as f:
+                                    print("SCREENSHOT2_BASE64:", base64.b64encode(f.read()).decode())
+                                await page.get_by_text("Payer et réserver").first.click()
                                 print("Processus de réservation terminé.")
                                 await page.wait_for_timeout(1000)
                                 await browser.close()  # ferme le navigateur proprement
