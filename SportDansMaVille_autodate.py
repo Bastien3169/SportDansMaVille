@@ -127,7 +127,7 @@ async def main():
                                 await page.get_by_text("Payer et réserver").nth(1).click()
                                 print("✅ Clic sur le deuxième bouton.")
                                 print("Processus de réservation terminé.")
-                                await page.wait_for_timeout(1000)
+                                await page.wait_for_timeout(10000)
                                 await page.screenshot(path="/tmp/final_screenshot3.png", full_page=True)
                                 with open("/tmp/final_screenshot3.png", "rb") as f:
                                     print("SCREENSHOT4_BASE64:", base64.b64encode(f.read()).decode())
@@ -135,7 +135,7 @@ async def main():
                             except Exception as e:
                                 await page.get_by_text("Payer et réserver").click()
                                 print("Processus de réservation terminé.")
-                                await page.wait_for_timeout(1000)
+                                await page.wait_for_timeout(10000)
                                 await browser.close()  # ferme le navigateur proprement
                             return  # quitte la fonction main()
                     
