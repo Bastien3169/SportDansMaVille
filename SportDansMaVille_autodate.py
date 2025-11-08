@@ -110,7 +110,7 @@ async def main():
                             print("Connection réussit")
                             try:
                                 # Essayer rapidement
-                                await page.get_by_text("Ajouter une carte").click
+                                await page.get_by_text("Ajouter une carte").click()
                                 await page.wait_for_timeout(5000)
                                 print("click ajouter une carte ok")
                                 await page.screenshot(path="/tmp/final_screenshot.png", full_page=True)
