@@ -122,14 +122,14 @@ async def main():
                                 await page.wait_for_timeout(1000)
                                 print("Sélectionner carte ok")
                                 await page.screenshot(path="/tmp/final_screenshot2.png", full_page=True)
-                                with open("/tmp/final_screenshot.png", "rb") as f:
+                                with open("/tmp/final_screenshot2.png", "rb") as f:
                                     print("SCREENSHOT3_BASE64:", base64.b64encode(f.read()).decode())
                                 await page.get_by_text("Payer et réserver").nth(1).click()
                                 print("✅ Clic sur le deuxième bouton.")
                                 print("Processus de réservation terminé.")
                                 await page.wait_for_timeout(1000)
                                 await page.screenshot(path="/tmp/final_screenshot3.png", full_page=True)
-                                with open("/tmp/final_screenshot.png", "rb") as f:
+                                with open("/tmp/final_screenshot3.png", "rb") as f:
                                     print("SCREENSHOT4_BASE64:", base64.b64encode(f.read()).decode())
                                 await browser.close()  # ferme le navigateur proprement
                             except Exception as e:
