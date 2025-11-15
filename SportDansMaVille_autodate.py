@@ -113,26 +113,25 @@ async def main():
                                 await page.get_by_text("Ajouter une carte").click()
                                 await page.wait_for_timeout(5000)
                                 print("click ajouter une carte ok")
-                                await page.screenshot(path="/tmp/final_screenshot.png", full_page=True)
-                                with open("/tmp/final_screenshot.png", "rb") as f:
-                                    print("SCREENSHOT2_BASE64:", base64.b64encode(f.read()).decode())
                                 await page.locator("#ion-overlay-6 ion-radio").first.click()
                                 await page.wait_for_timeout(1000)
                                 await page.get_by_text("Sélectionner").click()
                                 await page.wait_for_timeout(1000)
                                 print("Sélectionner carte ok")
-                                await page.screenshot(path="/tmp/final_screenshot2.png", full_page=True)
-                                with open("/tmp/final_screenshot2.png", "rb") as f:
-                                    print("SCREENSHOT3_BASE64:", base64.b64encode(f.read()).decode())
                                 await page.get_by_text("Payer et réserver").nth(1).click()
                                 print("✅ Clic sur le deuxième bouton.")
                                 print("Processus de réservation terminé.")
                                 await page.wait_for_timeout(10000)
+                                # sur les creen, ne pas oublier de bien mettre les memes chemins /tmp/...final_screenshot3.png
                                 await page.screenshot(path="/tmp/final_screenshot3.png", full_page=True)
                                 with open("/tmp/final_screenshot3.png", "rb") as f:
-                                    print("SCREENSHOT4_BASE64:", base64.b64encode(f.read()).decode())
+                                    print("SCREENSHOT3_BASE64:", base64.b64encode(f.read()).decode())
                                 await browser.close()  # ferme le navigateur proprement
                             except Exception as e:
+                                print("Bloc sans ajout carte")
+                                await page.screenshot(path="/tmp/final_screenshot4.png", full_page=True)
+                                with open("/tmp/final_screenshot4.png", "rb") as f:
+                                    print("SCREENSHOT4_BASE64:", base64.b64encode(f.read()).decode())
                                 await page.get_by_text("Payer et réserver").click()
                                 print("Processus de réservation terminé.")
                                 await page.wait_for_timeout(10000)
