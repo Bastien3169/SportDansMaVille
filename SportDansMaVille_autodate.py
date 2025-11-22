@@ -129,10 +129,12 @@ async def main():
                                 await browser.close()  # ferme le navigateur proprement
                             except Exception as e:
                                 print("Bloc sans ajout carte")
-                                await page.screenshot(path="/tmp/final_screenshot4.png", full_page=True)
+                                '''await page.screenshot(path="/tmp/final_screenshot4.png", full_page=True)
                                 with open("/tmp/final_screenshot4.png", "rb") as f:
-                                    print("SCREENSHOT4_BASE64:", base64.b64encode(f.read()).decode())
-                                await page.get_by_text("Payer et réserver").click()
+                                    print("SCREENSHOT4_BASE64:", base64.b64encode(f.read()).decode())'''
+                                #await page.mouse.move(100, 200)
+                                #await page.evaluate("window.scrollBy(0, 200)")   
+                                await page.get_by_text("Payer et réserver").nth(1).click()
                                 print("Processus de réservation terminé.")
                                 await page.wait_for_timeout(10000)
                                 await browser.close()  # ferme le navigateur proprement
