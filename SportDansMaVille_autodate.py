@@ -48,7 +48,7 @@ async def main():
     async with async_playwright() as p:
         # Lancer le navigateur Chromium en mode asynchrone car sur Jupyter il faut être asynchrone
         # headless=False pour voir le navigateur, forcer fr pour pas que Chrome traduise automatiquement
-        browser = await p.chromium.launch(headless=False, args=["--lang=fr-FR"])
+        browser = await p.chromium.launch(headless=True, args=["--lang=fr-FR"])
         # Ici : créer un contexte avec locale FR
         context = await browser.new_context(locale="fr-FR", 
                                             viewport={"width": 1280, "height": 800}, 
