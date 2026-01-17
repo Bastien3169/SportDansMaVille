@@ -48,7 +48,7 @@ async def main():
     async with async_playwright() as p:
         # Lancer le navigateur Chromium en mode asynchrone car sur Jupyter il faut être asynchrone
         # headless=False pour voir le navigateur, forcer fr pour pas que Chrome traduise automatiquement
-        browser = await p.chromium.launch(headless=True, args=["--lang=fr-FR"])
+        browser = await p.chromium.launch(headless=False, args=["--lang=fr-FR"])
         # Ici : créer un contexte avec locale FR
         context = await browser.new_context(locale="fr-FR", 
                                             viewport={"width": 1280, "height": 800}, 
@@ -90,17 +90,24 @@ async def main():
                         await page.wait_for_timeout(2000)
                         # ... Si il y a le texte "Début19:0060 min", alors cliquer sur les pages suivantes
                         if "Début19:00" in text_playwriht and "60" in text_playwriht:
-                            await page.wait_for_timeout(2000)
+                            await page.wait_for_timeout(1000)
                             await page.locator("app-card-playground").filter(has_text=f"Foot {i} Football 5vs5 - Exté").locator("ion-label").filter(has_text="60 min").click()
                             print(f"Terrain {i} trouvé")
                             await page.wait_for_timeout(2000)
-                            await page.fill('input[placeholder="john.doe@example.com"]', 'jolie.mountain@gmail.com')
+                            await page.get_by_role("textbox", name="Adresse email").fill("jolie.mountain@gmail.com")
                             await page.wait_for_timeout(2000)
+                            await page.locator("#sign-modal").get_by_text("Se connecter", exact=True).click()
+                            await page.wait_for_timeout(2000)
+                            await page.get_by_role("textbox", name="******").fill("Toulouse31")
+                            '''await page.fill('input[placeholder="john.doe@example.com"]', 'jolie.mountain@gmail.com')
+                            await page.wait_for_timeout(2000)
+                            await page.pause()
                             await page.get_by_text("Valider mon email").click()
                              # Screenshot complet
                             #await page.screenshot(path="/app/crash_screenshot.png", full_page=True)
                             await page.wait_for_timeout(2000)
                             await page.fill('input[placeholder="******"]', 'Toulouse31')
+                            '''
                             await page.wait_for_timeout(2000)
                             await page.get_by_text("Valider").click()
                             await page.wait_for_timeout(2000)
@@ -111,7 +118,7 @@ async def main():
                             try:
                                 # Essayer rapidement
                                 await page.get_by_text("Ajouter une carte").click()
-                                await page.wait_for_timeout(5000)
+                                await page.wait_for_timeout(2000)
                                 print("click ajouter une carte ok")
                                 await page.locator("#ion-overlay-6 ion-radio").first.click()
                                 await page.wait_for_timeout(1000)
