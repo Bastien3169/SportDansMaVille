@@ -5,8 +5,15 @@ import nest_asyncio  # A priori, pas besoin,sauf pour notebook
 import time  # A priori, pas besoin
 import base64
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
+import os
 # Mettre venv : source .venv/bin/activate
 # Arreter venv : deactivate
+
+load_dotenv()
+
+EMAIL = os.getenv("EMAIL")
+PASSWORD = os.getenv("PASSWORD")
 
 
 def date():
@@ -94,22 +101,22 @@ async def main():
                             await page.locator("app-card-playground").filter(has_text=f"Foot {i} Football 5vs5 - Exté").locator("ion-label").filter(has_text="60 min").click()
                             print(f"Terrain {i} trouvé")
                             await page.wait_for_timeout(2000)
-                            await page.get_by_role("textbox", name="Adresse email").fill("jolie.mountain@gmail.com")
+                            await page.get_by_role("textbox", name="Adresse email").fill(EMAIL)
                             print("Mail rentré")
                             await page.wait_for_timeout(2000)
                             await page.locator("#sign-modal").get_by_text("Se connecter", exact=True).click()
                             print("Mail validé")
                             await page.wait_for_timeout(2000)
-                            await page.get_by_role("textbox", name="******").fill("Toulouse31")
+                            await page.get_by_role("textbox", name="******").fill(PASSWORD)
                             print("MDP rentré")
-                            '''await page.fill('input[placeholder="john.doe@example.com"]', 'jolie.mountain@gmail.com')
+                            '''await page.fill('input[placeholder="john.doe@example.com"]', EMAIL)
                             await page.wait_for_timeout(2000)
                             await page.pause()
                             await page.get_by_text("Valider mon email").click()
                              # Screenshot complet
                             #await page.screenshot(path="/app/crash_screenshot.png", full_page=True)
                             await page.wait_for_timeout(2000)
-                            await page.fill('input[placeholder="******"]', 'Toulouse31')
+                            await page.fill('input[placeholder="******"]', PASSWORD)
                             '''
                             await page.wait_for_timeout(2000)
                             await page.get_by_text("Valider").click()
