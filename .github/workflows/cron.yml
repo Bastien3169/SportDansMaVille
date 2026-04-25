@@ -2,7 +2,7 @@ name: Run SportDansMaVille (scheduled)
 
 on:
   schedule:
-    - cron: "1 0 * * 6" # tous les samedis à 02:00 UTC
+    - cron: "1 0 * * 4" # tous les samedis à 02:00 UTC
   workflow_dispatch: # permet de déclencher manuellement
 
 jobs:
