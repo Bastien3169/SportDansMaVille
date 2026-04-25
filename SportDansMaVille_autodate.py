@@ -37,7 +37,7 @@ def date():
     date_depart = datetime.now()
 
     # Ajouter 45 jours
-    date_updatee = date_depart + timedelta(days=45) # + 46 et non 45 car date en UTC et donc -2h donc Cron à 22h01 pour que déclanchement 00h01 en France
+    date_updatee = date_depart + timedelta(days=47) # + 46 et non 45 car date en UTC et donc -2h donc Cron à 22h01 pour que déclanchement 00h01 en France
 
     # Récupérer le mois mais en anglais et vu qu'on cherche un mois en fr dans le DOM, il faut transformer le mot
     mois_anglais = date_updatee.strftime('%B')
