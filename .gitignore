@@ -1,6 +1,7 @@
 # Environnements virtuels
 venv/
 .env/
+*.env
 .venv/
 __pycache__/
 
@@ -21,3 +22,4 @@ __pycache__/
 
 # Dossiers de cache
 .cache/
+
